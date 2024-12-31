@@ -1,0 +1,38 @@
+#include < WiFi.h >
+
+void setup(){
+  Serial.begin(115200);
+  Serial.println();
+
+  WiFi.mode(WIFI_STA);  // 设置为STA模式
+
+  Serial.println("开始扫描");
+  WiFi.scanNetworks(true); //启动异步扫描
+}
+
+void loop(){  
+  int n = WiFi.scanComplete(); //获取扫描状态,信号个数
+  if (n >= 0){
+    Serial.println("扫描完成");
+    for (int i = 0; i < n; ++i){
+      Serial.println();
+      Serial.print(i + 1);
+      Serial.print(":       ");
+      Serial.print(WiFi.SSID(i)); //网络名称
+      Serial.print("        ");
+      Serial.print(WiFi.RSSI(i)); //信号强度
+      Serial.print("        ");
+      Serial.print((WiFi.encryptionType(i) == WIFI_AUTH_OPEN) ? "未加密" : "加密"); //是否加密
+      delay(10);
+    }
+    WiFi.scanDelete(); //清除内存中的扫描结果
+  }
+  else if (n == -1){
+    Serial.println("正在扫描");
+  }
+  else if (n == -2) {
+    Serial.println("未触发扫描");
+  }
+
+  delay(1000);
+}

@@ -1,0 +1,34 @@
+#include < WiFi.h >
+
+const char *ssid = "*********";  //改为你自己的WIFI账号
+const char *password = "********"; //改为你自己的WIFI密码
+
+void setup(){
+  Serial.begin(115200);
+  Serial.println();
+
+  WiFi.mode(WIFI_STA); //设置工作在STA模式
+
+  WiFi.begin(ssid, password); //连接WiFi
+
+  while (WiFi.status() != WL_CONNECTED ){  //等待网络连接成功
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println("WiFi Connected!");
+
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP()); //IP地址
+
+  Serial.print("subnetMask: ");
+  Serial.println(WiFi.subnetMask()); //子网掩码地址
+
+  Serial.print("gateway: ");
+  Serial.println(WiFi.gatewayIP()); //网关地址
+
+  Serial.print("MAC Address: ");
+  Serial.println(WiFi.macAddress()); //MAC地址
+}
+
+void loop(){
+}
